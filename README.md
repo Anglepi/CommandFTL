@@ -9,9 +9,11 @@ Since it is just a game, I will try to help and relieve some of that Sunday afte
 Text-based games are no longer mainstream, they are considered a classic or even an antique, but in this case it is online.
 I am not pretending it is the only one of its kind, because it is not, but in this case the game will be built from a set of webservices that will represent different aspects of it.
 
-Users will interact directly with a webservice that will represent their character or spaceship, and I know this is not the most comfortable way to play a game, so I will be providing with a very basic script that will do as CLI to the game, allowing the players to perform specified request by using simplified commands, and to display any information necessary such as feedback of their actions or changes in their environment.
+Users will interact directly with a webservice that will represent their character or spaceship, and I know this is not the most comfortable way to play a game, so I will be providing with a very basic script that will do as CLI to the game (it is not part of it), allowing the players to perform specified request by using simplified commands, and to display any information necessary such as feedback of their actions or changes in their environment.
 
 Of course, nobody will be enforced to play with such interface. Users will be able to code their own interface however they want, they can even group different requests in order to perform complex tasks with just a single action.
+
+It will be a completely server-side game, since every single calculation and logic will be done there and a client software is not part of this project. Of course, latency should not be an issue for a game of this nature, but its effect will be eventually analyzed during the developmen and testing of the game.
 
 ## Basic concept of the game
 
