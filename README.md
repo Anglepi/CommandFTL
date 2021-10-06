@@ -52,6 +52,14 @@ I will create different components that will interact with each other in order t
 1.  The management of the environment. A game with just players and no world could probably do better. I am planning to add some random events such as asteroid rain, supernovas and other not so natural phenomena that will have effects on players.
     The world is not just disasters happening again and again, players could find with resources such as abandoned ships or NPCs in search of assistance that will reward them with weapons or additional score, maybe even credits if I am willing to implement some kind of store or trading between players.
 
+Someone might think that, if this works, why don't everybody build games this way? One answer might be because latency has a great impact in the gameplay (Google Stadia failed because of this, among other reasons) and the infrastructure required to run these modern graphics and complex games is not affordable to build in the cloud, the servers would be too expensive.
+
+So, why build this game entirely in the cloud? It has its advantages:
+
+1. You do not need a powerful machine to run its logic and it does not even have graphics, it is a low computing cost game.
+1. It is an online game, it makes sense that at least some of its components are on the web.
+1. And again, its a text based game, people need more than a few miliseconds to correctly type a command. The game will be designed to give more importance to resource management and strategy than to low reaction times. It is still to be determined, but my guess is that latency will not be an issue.
+
 ## References
 
 - [Git and repository configuration (In Spanish, from another project).](https://github.com/Anglepi/Aura/blob/main/docs/configuracion_git.md)
