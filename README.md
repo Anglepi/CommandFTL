@@ -41,6 +41,17 @@ Here are some examples of systems:
 
 There might be more systems in the future, and every single one of them will be upgradeable providing some extra benefits.
 
+## How will I build it?
+
+Since it is a completely online game, all of its components will be developed in the cloud. As I said before, the only thing users will need to play this game is a way to build requests to the cloud.
+
+I will create different components that will interact with each other in order to make everything works:
+
+1.  The communication with the player. It is a text-based game, the player has to be able to send their commands and get information of what is going on in their surroundings.
+1.  The result of their actions. This is highly related to the previous point. Actions have consequences and that is something you learn when you reach adulthood. Shooting a weapon, fixing your ship's systems, buying equipment and every other kind of possible interactions with your ship, other players or the environment will have consequences that will be processed in the cloud.
+1.  The management of the environment. A game with just players and no world could probably do better. I am planning to add some random events such as asteroid rain, supernovas and other not so natural phenomena that will have effects on players.
+    The world is not just disasters happening again and again, players could find with resources such as abandoned ships or NPCs in search of assistance that will reward them with weapons or additional score, maybe even credits if I am willing to implement some kind of store or trading between players.
+
 ## References
 
 - [Git and repository configuration (In Spanish, from another project).](https://github.com/Anglepi/Aura/blob/main/docs/configuracion_git.md)
