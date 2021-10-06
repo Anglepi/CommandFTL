@@ -1,15 +1,15 @@
 # CommandFTL
 
-> An online text-based game that will connect you with different players through a network of webservices representing universes and ships.
+> An online text-based game that will connect you with different players through a network of web components representing universes and ships.
 
 ## The problematic
 
 Since it is just a game, I will try to help and relieve some of that Sunday afternoon boredom.
 
 Text-based games are no longer mainstream, they are considered a classic or even an antique, but in this case it is online.
-I am not pretending it is the only one of its kind, because it is not, but in this case the game will be built from a set of webservices that will represent different aspects of it.
+I am not pretending it is the only one of its kind, because it is not, but in this case the game will be built from a set of web components that will represent different aspects of it.
 
-Users will interact directly with a webservice that will represent their character or spaceship, and I know this is not the most comfortable way to play a game, so I will be providing with a very basic script that will do as CLI to the game (it is not part of it), allowing players to perform specified request by using simplified commands, and to display any information necessary such as feedback of their actions or changes in their environment.
+Users will interact directly with a webs component that will represent their character or spaceship, and I know this is not the most comfortable way to play a game, so I will be providing with a very basic script that will do as CLI to the game (it is not part of it), allowing players to perform specified request by using simplified commands, and to display any information necessary such as feedback of their actions or changes in their environment.
 
 Of course, nobody will be enforced to play with such interface. Users will be able to code their own interface however they want, they can even group different requests in order to perform complex tasks with just a single action.
 
