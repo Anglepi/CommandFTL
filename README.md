@@ -26,6 +26,10 @@ The next set of User Stories has been created an associated to the first milesto
 1. [[US5] As a developer, during every game for each player, I want to establish a session in order to correctly associate each player with their ship.](https://github.com/Anglepi/CommandFTL/issues/6)
 1. [[US6] As a player, during or after my ship has been under attack, I want to be able to repair the damages.](https://github.com/Anglepi/CommandFTL/issues/7)
 
+## Entities created
+
+As a base for future development, I have created a few 'classes' with simple data structures and empty methods. These can be found at [cc.yaml](https://github.com/Anglepi/CommandFTL/blob/main/cc.yaml) file, indicating the path of each one of them in the 'entidad' key.
+
 ## Additional links of interest
 
 - [Previous documentation.](https://github.com/Anglepi/CommandFTL/blob/main/docs/README.md)
