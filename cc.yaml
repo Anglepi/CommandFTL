@@ -1,0 +1,6 @@
+entidad:
+  - ship/ship.go
+  - ship/systemBasics.go
+  - universe/sector.go
+  - universe/universe.go
+  - main.go
