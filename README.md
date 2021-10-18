@@ -2,65 +2,30 @@
 
 > An online text-based game that will connect you with different players through a network of web components representing universes and ships.
 
-## The problematic
+## Project planning
 
-Since it is just a game, I will try to help and relieve some of that Sunday afternoon boredom.
+I have planned a total of 5 different MVPs to be developed, each one of them being an increment of the previous one.
+All of these MVPs are represented with a milestone each, which are the following:
 
-Text-based games are no longer mainstream, they are considered a classic or even an antique, but in this case it is online.
-I am not pretending it is the only one of its kind, because it is not, but in this case the game will be built from a set of web components that will represent different aspects of it.
+1. [Creating communications template.](https://github.com/Anglepi/CommandFTL/milestone/1). The idea is to prepare the environment to work on the project with a set of defined endpoints that can be used to listed to request even if they do not process them at all.
+1. [Most basic combat.](https://github.com/Anglepi/CommandFTL/milestone/2). This includes the capability of a player to join the game, keep their session and perform a very basic action of attack.
+1. [Introducing Systems.](https://github.com/Anglepi/CommandFTL/milestone/3). A set of basic systems and their functionalities will be introduced into each players ships, expanding the commands kit and adding interest to battles. Also, some extra actions such as repairs will be added as well.
+1. [Advanced Systems and Management.](https://github.com/Anglepi/CommandFTL/milestone/4). Extra and more advanced (or rather complex) systems will be added into the game. These systems and also new weapons will be obtained as a reward for defeating another player.
+1. [World Environment.](https://github.com/Anglepi/CommandFTL/milestone/5). Includes several environmental hazzards that affect a sector and random events such as wreckages, distress calls and other NPC interactions.
 
-Users will interact directly with a webs component that will represent their character or spaceship, and I know this is not the most comfortable way to play a game, so I will be providing with a very basic script that will do as CLI to the game (it is not part of it), allowing players to perform specified request by using simplified commands, and to display any information necessary such as feedback of their actions or changes in their environment.
+Each of the above milestones include some extra information about them in the description.
 
-Of course, nobody will be enforced to play with such interface. Users will be able to code their own interface however they want, they can even group different requests in order to perform complex tasks with just a single action.
+## User Stories
 
-It will be a completely server-side game, since every single calculation and logic will be done there and a client software is not part of this project. Of course, latency should not be an issue for a game of this nature, but its effect will be eventually analyzed during the developmen and testing of the game.
+The next set of User Stories has been created an associated to the first milestone they correspond to. Some of them will be moved between different milestones.
 
-## Basic concept of the game
+1. [[US1] As a player, I want to be able to join the game from anywhere with access to the internet.](https://github.com/Anglepi/CommandFTL/issues/1)
+1. [[US2] As a player, during combat, I want to make use of my Weapon Systems to attack and destroy my target.](https://github.com/Anglepi/CommandFTL/issues/2)
+1. [[US3] As a developer, in order to ease manual testing, I want a client interface that allows me to make requests easily.](https://github.com/Anglepi/CommandFTL/issues/3)
+1. [[US4] As a player, to make the game more interesting, I want my ship to have different systems that increase my possible actions during the game.](https://github.com/Anglepi/CommandFTL/issues/4)
+1. [[US5] As a developer, during every game for each player, I want to establish a session in order to correctly associate each player with their ship.](https://github.com/Anglepi/CommandFTL/issues/6)
+1. [[US6] As a player, during or after my ship has been under attack, I want to be able to repair the damages.](https://github.com/Anglepi/CommandFTL/issues/7)
 
-So, it is a spaceships multiplayer game. Players will be able to fight each other when they are close enough, and maybe even some secondary task such as scavenge the area in search of resources or upgrading your ships capabilities, but how will it work?
+## Additional links of interest
 
-### The universe
-
-Each universe will be divided in a set of named sectors that players can visit, and each sector may have some peculiarities such as resources, plasma storms or collapsing stars that will affect players in it.
-
-### The spaceship
-
-Players will start their game with their spaceship in a random sector of an universe. Each ship will have these properties:
-
-- **Hull Hit Points.** If this number reachs 0, it is game over.
-- **Enery Core.** It provides a specific amount of energy that can be freely distributed among the ship's systems.
-
-Here are some examples of systems:
-
-- **Weapons Systems.** Allows the attachment of a certain type of weapons and provides these with power from the Energy Core.
-- **Shield System.** Uses energy to mitigate incoming damage.
-- **Engine System.** Allows the ship to move. This includes FTL jumps to move to different sectors and maybe even to perform evasive manneuvers.
-- **Life Support Systems.** Allows you to breathe within the ship.
-- **Sensor Systems.** Provides information about what is in the sector.
-- **Hacking Systems.** Allows you to affect the performance of enemy ship's systems.
-
-There might be more systems in the future, and every single one of them will be upgradeable providing some extra benefits.
-
-## How will I build it?
-
-Since it is a completely online game, all of its components will be developed in the cloud. As I said before, the only thing users will need to play this game is a way to build requests to the cloud.
-
-I will create different components that will interact with each other in order to make everything works:
-
-1.  The communication with the player. It is a text-based game, the player has to be able to send their commands and get information of what is going on in their surroundings.
-1.  The result of their actions. This is highly related to the previous point. Actions have consequences and that is something you learn when you reach adulthood. Shooting a weapon, fixing your ship's systems, buying equipment and every other kind of possible interactions with your ship, other players or the environment will have consequences that will be processed in the cloud.
-1.  The management of the environment. A game with just players and no world could probably do better. I am planning to add some random events such as asteroid rain, supernovas and other not so natural phenomena that will have effects on players.
-    The world is not just disasters happening again and again, players could find with resources such as abandoned ships or NPCs in search of assistance that will reward them with weapons or additional score, maybe even credits if I am willing to implement some kind of store or trading between players.
-
-Someone might think that, if this works, why don't everybody build games this way? One answer might be because latency has a great impact in the gameplay (Google Stadia failed because of this, among other reasons) and the infrastructure required to run these modern graphics and complex games is not affordable to build in the cloud, the servers would be too expensive.
-
-So, why build this game entirely in the cloud? It has its advantages:
-
-1. You do not need a powerful machine to run its logic and it does not even have graphics, it is a low computing cost game.
-1. It is an online game, it makes sense that at least some of its components are on the web.
-1. And again, its a text based game, people need more than a few miliseconds to correctly type a command. The game will be designed to give more importance to resource management and strategy than to low reaction times. It is still to be determined, but my guess is that latency will not be an issue.
-
-## References
-
-- [Git and repository configuration (In Spanish, from another project).](https://github.com/Anglepi/Aura/blob/main/docs/configuracion_git.md)
-- [FTL:Faster Than Light. A game I like and which from I took some inspiration.](https://subsetgames.com/ftl.html)
+- [Previous documentation.](https://github.com/Anglepi/CommandFTL/blob/main/docs/README.md)
