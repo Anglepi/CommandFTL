@@ -11,7 +11,7 @@ func CreateShip() *Ship {
 	return &Ship{hullHitPoints: 10, energyAvailable: 20}
 }
 
-func (ship *Ship) ShotWeapons(target Ship) {
+func (ship *Ship) ShootWeapon(target Ship) {
 
 }
 
