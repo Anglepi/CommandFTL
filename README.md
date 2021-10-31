@@ -2,30 +2,27 @@
 
 > An online text-based game that will connect you with different players through a network of web components representing universes and ships.
 
-## Project planning
+## Introduction
 
-I have planned a total of 4 different MVPs to be developed, each one of them being an increment of the previous one.
-All of these MVPs are represented with a milestone each, which are the following:
+Before further reading, you might want to check the [problem description](https://github.com/Anglepi/CommandFTL/blob/main/docs/ProblemDescription.md) to know what this project is about or check [other documentations](https://github.com/Anglepi/CommandFTL/blob/main/docs/README.md) available about this repository.
 
-1. [Most basic combat.](https://github.com/Anglepi/CommandFTL/milestone/2). This includes the capability of a player to join the game, keep their session and perform a very basic action of attack.
-1. [Introducing Systems.](https://github.com/Anglepi/CommandFTL/milestone/3). A set of basic systems and their functionalities will be introduced into each players ships, expanding the commands kit and adding interest to battles. Also, some extra actions such as repairs will be added as well.
-1. [Advanced Systems and Management.](https://github.com/Anglepi/CommandFTL/milestone/4). Extra and more advanced (or rather complex) systems will be added into the game. These systems and also new weapons will be obtained as a reward for defeating another player.
-1. [World Environment.](https://github.com/Anglepi/CommandFTL/milestone/5). Includes several environmental hazzards that affect a sector and random events such as wreckages, distress calls and other NPC interactions.
+The project, as you might have noticed, will be written in Go, and below you will find some choices I have made according to this language and the nature of the project.
 
-Each of the above milestones include some extra information about them in the description.
+## Testing
 
-## User Stories
+During the next few days I will be focusing on including everything necessary to perform testing on this project in order to easily check code and functionalities as they are included to CommandFTL. Next you will find what choices I have made, and a link for each decision to a page where I state the reason of each choice and some alternatives that I have studied.
 
-The next set of User Stories has been created an associated to the first milestone they correspond to. Some of them will be moved between different milestones.
+### Task manager
 
-1. [[US1] As a player, during combat, I want to make use of my Weapon Systems to attack and destroy my target.](https://github.com/Anglepi/CommandFTL/issues/2)
-1. [[US2] As a player, to make the game more interesting, I want my ship to have different systems that increase my possible actions during the game.](https://github.com/Anglepi/CommandFTL/issues/4)
-1. [[US3] As a player, during or after my ship has been under attack, I want to be able to repair the damages.](https://github.com/Anglepi/CommandFTL/issues/7)
-1. [[US4] As a plyer, after achieving a goal, I want to receive a reward](https://github.com/Anglepi/CommandFTL/issues/12)
+The task manager I will be using is **Make**. There are other options such as **Rake** and **GoGradle** and [here]() I explain why I took this choice.
 
-## Entities created
+### Testing framework
 
-As a base for future development, I have created a few 'classes' with simple data structures and empty methods. These can be found at [cc.yaml](https://github.com/Anglepi/CommandFTL/blob/main/cc.yaml) file, indicating the path of each one of them in the 'entidad' key.
+You probably already know that Go already has a testing framework, and that is the one I will be using although it is not the only option. Find out more [here]().
+
+### Assertion library
+
+I found a lot of different assertion libraries available for Go, and ended up choosing [stretchr/testify/assert](https://pkg.go.dev/github.com/stretchr/testify/assert). Check out why and other options [here]().
 
 ## Additional links of interest
 
