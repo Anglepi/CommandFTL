@@ -10,7 +10,7 @@ The project, as you might have noticed, will be written in Go, and below you wil
 
 ## Testing
 
-During the next few days I will be focusing on including everything necessary to perform testing on this project in order to easily check code and functionalities as they are included to CommandFTL. Next you will find what choices I have made, and a link for each decision to a page where I state the reason of each choice and some alternatives that I have studied.
+During the next few days, I will be focusing on including everything necessary to perform testing on this project in order to easily check code and functionalities as they are included in CommandFTL. Next, you will find what choices I have made, and a link for each decision to a page where I state the reason for each choice and some alternatives that I have studied.
 
 ### Task manager
 
@@ -22,7 +22,7 @@ You probably already know that Go already has a testing framework, and that is t
 
 ### Assertion library
 
-I found a lot of different assertion libraries available for Go, and ended up choosing [stretchr/testify/assert](https://pkg.go.dev/github.com/stretchr/testify/assert). Check out why and other options [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/AssertionLibrary.md).
+I found a lot of different assertion libraries available for Go and ended up choosing [stretchr/testify/assert](https://pkg.go.dev/github.com/stretchr/testify/assert). Check out why and other options [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/AssertionLibrary.md).
 
 ## Additional links of interest
 

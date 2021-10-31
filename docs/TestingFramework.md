@@ -1,16 +1,16 @@
 # Testing Framework used
 
-Since this project is built in Go, it makes sense to use its native test framework, and it seems to work pretty well. After some research I have decided to use this one, but there are some alternatives for you to use in case you do not like this.
+Since this project is built in Go, it makes sense to use its native test framework, and it seems to work pretty well. After some research, I have decided to use this one, but there are some alternatives for you to use in case you do not like this.
 
-To use it, you create as many `*__test.go` files as you want, that contains functions whith names starting by `Test` and have a testing object as a parameter. An example could be `func TestSomethingHappens(t *testing.T)`. When running `go test`, it identifies all those files and functions, execute them and print out the result.
+To use it, you create as many `*__test.go` files as you want, that contain functions with names starting by `Test` and have a testing object as a parameter. An example could be `func TestSomethingHappens(t *testing.T)`. When running `go test`, it identifies all those files and functions, executes them and prints out the result.
 
 ## Alternatives
 
 ### Goblin
 
-[Goblin](https://github.com/franela/goblin) is a framework whose intention is to provide a Moccha-like BDD testing. It requires you to add it to your test dependencies and you're good to go.
+[Goblin](https://github.com/franela/goblin) is a framework whose intention is to provide Mocha-like BDD testing. It requires you to add it to your test dependencies and you're good to go.
 
-I have not chosen Goblin just because Go native frameworks seems more than enough for me and I do not want to include many non-essential stuff to the project.
+I have not chosen Goblin just because Go native frameworks seem more than enough for me and I do not want to include many non-essential stuff in the project.
 
 ### Ginkgo
 
