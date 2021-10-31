@@ -14,16 +14,20 @@ During the next few days I will be focusing on including everything necessary to
 
 ### Task manager
 
-The task manager I will be using is **Make**. There are other options such as **Rake** and **GoGradle** and [here]() I explain why I took this choice.
+The task manager I will be using is **Make**. There are other options such as **Rake** and **GoGradle** and [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/TaskManager.md) I explain why I took this choice.
 
 ### Testing framework
 
-You probably already know that Go already has a testing framework, and that is the one I will be using although it is not the only option. Find out more [here]().
+You probably already know that Go already has a testing framework, and that is the one I will be using although it is not the only option. Find out more [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/TestingFramework.md).
 
 ### Assertion library
 
-I found a lot of different assertion libraries available for Go, and ended up choosing [stretchr/testify/assert](https://pkg.go.dev/github.com/stretchr/testify/assert). Check out why and other options [here]().
+I found a lot of different assertion libraries available for Go, and ended up choosing [stretchr/testify/assert](https://pkg.go.dev/github.com/stretchr/testify/assert). Check out why and other options [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/AssertionLibrary.md).
 
 ## Additional links of interest
 
-- [Previous documentation.](https://github.com/Anglepi/CommandFTL/blob/main/docs/README.md)
+- [Previous and extra documentation.](https://github.com/Anglepi/CommandFTL/blob/main/docs/README.md)
+- [Task manager selection](https://github.com/Anglepi/CommandFTL/blob/main/docs/TaskManager.md)
+- [Testing frameworks research](https://github.com/Anglepi/CommandFTL/blob/main/docs/TestingFramework.md)
+- [Assertion libraries research](https://github.com/Anglepi/CommandFTL/blob/main/docs/AssertionLibrary.md)
+
