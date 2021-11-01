@@ -4,3 +4,6 @@ entidad:
   - universe/sector.go
   - universe/universe.go
   - main.go
+
+fichero_tareas:
+  - Makefile
