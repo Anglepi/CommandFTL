@@ -5,5 +5,11 @@ entidad:
   - universe/universe.go
   - main.go
 
+lenguaje:
+  - Golang
+
+test:
+  - universe/universe_test.go
+
 fichero_tareas:
   - Makefile
