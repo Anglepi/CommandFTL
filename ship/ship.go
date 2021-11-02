@@ -7,8 +7,12 @@ type Ship struct {
 	systems         []SystemBasics
 }
 
-func CreateShip() *Ship {
-	return &Ship{hullHitPoints: 10, energyAvailable: 20}
+func CreateShip(shipName string) *Ship {
+	return &Ship{name: shipName, hullHitPoints: 10, energyAvailable: 20}
+}
+
+func (ship *Ship) GetName() string {
+	return ship.name
 }
 
 func (ship *Ship) ShootWeapon(target Ship) {

@@ -10,6 +10,14 @@ type Sector struct {
 	neighbourhood []Sector
 }
 
+func (sector *Sector) addNeighbours(neighbours []Sector) {
+	sector.neighbourhood = append(sector.neighbourhood, neighbours...)
+
+	for _, neighbour := range neighbours {
+		neighbour.neighbourhood = append(neighbour.neighbourhood, *sector)
+	}
+}
+
 func (sector *Sector) ScanSector(sectorName string) {
 
 }
@@ -22,8 +30,10 @@ func (sector *Sector) ChangeSector(traveling ship.Ship, destinationSectorName st
 
 }
 
-func (sector *Sector) AddNewShip() {
-
+func (sector *Sector) AddNewShip(shipName string) string {
+	newShip := ship.CreateShip(shipName)
+	sector.players = append(sector.players, *newShip)
+	return newShip.GetName()
 }
 
 func (sector *Sector) RemoveShip(){
