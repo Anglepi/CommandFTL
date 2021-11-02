@@ -15,8 +15,13 @@ func (ship *Ship) GetName() string {
 	return ship.name
 }
 
-func (ship *Ship) ShootWeapon(target Ship) {
+func (ship *Ship) ShootWeapon(target *Ship) {
+	//TBD weapon precission, weapon characteristics
+	target.hullHitPoints--
+}
 
+func (ship *Ship) IsDestroyed() bool {
+	return ship.hullHitPoints <= 0
 }
 
 func (ship *Ship) CanMoveToSector(destination string) {
