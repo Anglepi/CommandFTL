@@ -10,6 +10,7 @@ lenguaje:
 
 test:
   - universe/universe_test.go
+  - ship/ship_test.go
 
 fichero_tareas:
   - Makefile
