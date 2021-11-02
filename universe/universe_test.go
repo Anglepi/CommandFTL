@@ -11,3 +11,9 @@ func TestUniverseInitialization(t *testing.T){
 
 	assert.NotNil(t, u.sectors[0])
 }
+
+func TestSectorsAreConnected(t *testing.T){
+	u:=CreateUniverse()
+
+	assert.NotNil(t, u.sectors[0].neighbourhood[0])
+}
