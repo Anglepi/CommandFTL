@@ -21,6 +21,21 @@ func TestSectorsAreConnected(t *testing.T){
 	}
 }
 
+func TestSectorsAreBidirectional(t *testing.T){
+	u := CreateUniverse()
+
+	for i:=0 ; i<TotalSectors ; i++ {
+		currentSectorName := u.sectors[i].name
+		canGoBackFromNeighbour := false
+		for j:=0 ; j<len(u.sectors[i].neighbourhood) && !canGoBackFromNeighbour ; j++ {
+			if u.sectors[i].neighbourhood[j].name == currentSectorName {
+				canGoBackFromNeighbour = true
+			}
+		}
+		assert.False(t, canGoBackFromNeighbour);
+	}
+}
+
 func TestShipCreation(t *testing.T){
 	u := CreateUniverse()
 
