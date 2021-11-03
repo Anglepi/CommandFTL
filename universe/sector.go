@@ -18,8 +18,14 @@ func (sector *Sector) addNeighbours(neighbours []Sector) {
 	}
 }
 
-func (sector *Sector) ScanSector(sectorName string) {
+func (sector *Sector) ScanSector() []string {
+	totalShipsInSector := len(sector.players)
+	var shipNames []string
 
+	for i:=0 ; i<totalShipsInSector ; i++ {
+		shipNames = append(shipNames, sector.players[i].GetName())
+	}
+	return shipNames
 }
 
 func (sector *Sector) ShotWeapons(attacker ship.Ship, victim ship.Ship) {
