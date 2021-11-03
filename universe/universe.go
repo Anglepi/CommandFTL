@@ -28,14 +28,14 @@ func connectSectors(u *Universe){
 	}
 }
 
-func CreateNewShip(u *Universe, shipName string) (bool, string) {
+func (universe *Universe) CreateNewShip(shipName string) (bool, string) {
 	var shipIntroduced = false
 	var shipURL = ""
 	//TBD check for ships with the same name within the universe
 	for i:=0 ; i<TotalSectors && !shipIntroduced ; i++{
-		if len(u.sectors[i].players) < 1 {
+		if len(universe.sectors[i].players) < 1 {
 			//TBD generate API endpoint and asign to shipURL
-			shipURL = u.sectors[i].name + "/" + u.sectors[i].AddNewShip(shipName)
+			shipURL = universe.sectors[i].name + "/" + universe.sectors[i].AddNewShip(shipName)
 			shipIntroduced = true
 		}
 	}
