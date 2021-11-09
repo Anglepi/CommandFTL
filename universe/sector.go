@@ -43,12 +43,12 @@ func (sector *Sector) ChangeSector(travelingShip ship.Ship, destinationSectorNam
 	}
 	
 	if sectorExists {
-		sector.RemoveShip(travelingShip)
-		neighbour.AddExistingShip(travelingShip)
+		sector.removeShip(travelingShip)
+		neighbour.addExistingShip(travelingShip)
 	}
 }
 
-func (sector *Sector) AddExistingShip(ship ship.Ship){
+func (sector *Sector) addExistingShip(ship ship.Ship){
 	sector.players = append(sector.players, ship)
 }
 
@@ -58,7 +58,7 @@ func (sector *Sector) AddNewShip(shipName string) string {
 	return newShip.GetName()
 }
 
-func (sector *Sector) RemoveShip(ship ship.Ship){
+func (sector *Sector) removeShip(ship ship.Ship){
 	shipFound := false
 	for i:=0 ; i<len(sector.players) && !shipFound ; i++ {
 		shipFound = sector.players[i].GetName() == ship.GetName()
