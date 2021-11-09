@@ -25,6 +25,19 @@ func TestSectorsAreBidirectional(t *testing.T){
 				canGoBackFromNeighbour = true
 			}
 		}
-		assert.False(t, canGoBackFromNeighbour);
+		assert.False(t, canGoBackFromNeighbour)
 	}
+}
+
+func TestSectorScanInfo(t *testing.T){
+	u := CreateUniverse()
+
+	for i:=0 ; i<TotalSectors ; i++ {
+		u.CreateNewShip("someShipName")
+	}
+
+	ships := u.sectors[0].ScanSector()
+
+	assert.Greater(t, len(ships), 0)
+	assert.Equal(t, ships[0], "someShipName")
 }
