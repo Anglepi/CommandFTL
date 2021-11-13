@@ -41,3 +41,22 @@ func TestSectorScanInfo(t *testing.T){
 	assert.Greater(t, len(ships), 0)
 	assert.Equal(t, ships[0], "someShipName")
 }
+
+func TestShipMovesToSector(t *testing.T){
+	u:= CreateUniverse()
+
+	u.CreateNewShip("Traveler")
+
+	assert.Greater(t, len(u.sectors[0].players), 0)
+	
+	u.sectors[0].ChangeSector(u.sectors[0].GetShipByName("Traveler"), "TESTSomeInexistentDestination")
+	
+	assert.Greater(t, len(u.sectors[0].players), 0)
+
+	connectedSector := u.sectors[0].GetConnectedSectors()[0]
+	u.sectors[0].ChangeSector(u.sectors[0].GetShipByName("Traveler"), connectedSector)
+
+	assert.Empty(t, u.sectors[0].players)
+	connectedSectorObject := u.sectors[0].GetConnectedSectorByName(connectedSector)
+	assert.Greater(t, len(connectedSectorObject.players), 0)
+}

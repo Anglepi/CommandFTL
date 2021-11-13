@@ -34,11 +34,11 @@ func (sector *Sector) ShotWeapons(attacker ship.Ship, victim ship.Ship) {
 
 func (sector *Sector) ChangeSector(travelingShip ship.Ship, destinationSectorName string) {
 	sectorExists := false
-	var neighbour Sector
+	var neighbour *Sector
 	for i:=0 ; i<len(sector.neighbourhood) && !sectorExists ; i++{
 		sectorExists = sector.neighbourhood[i].name == destinationSectorName
 		if sectorExists {
-			neighbour = sector.neighbourhood[i]
+			neighbour = &sector.neighbourhood[i]
 		}
 	}
 	
@@ -77,6 +77,34 @@ func (sector *Sector) IsShipNameAvailable(shipName string) bool {
 	}
 
 	return nameAvailable
+}
+
+func (sector *Sector) GetConnectedSectors() []string {
+	var connectedSectors []string
+	for i:=0 ; i<len(sector.neighbourhood) ; i++ {
+		connectedSectors = append(connectedSectors, sector.neighbourhood[i].name)
+	}
+	return connectedSectors
+}
+
+func (sector *Sector) GetShipByName(shipName string) ship.Ship {
+	var ship ship.Ship
+	for i:=0 ; i<len(sector.players) ; i++ {
+		if sector.players[i].GetName() == shipName {
+			ship = sector.players[i]
+		}
+	}
+	return ship
+}
+
+func (sector *Sector) GetConnectedSectorByName(sectorName string) Sector{
+	var neighbour Sector
+	for i:=0 ; i<len(sector.neighbourhood) && neighbour.name != sectorName ; i++ {
+		if sector.neighbourhood[i].name == sectorName {
+			neighbour = sector.neighbourhood[i]
+		}
+	}
+	return neighbour
 }
 
 func (sector *Sector) AmountOfShips(){

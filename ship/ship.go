@@ -23,7 +23,3 @@ func (ship *Ship) ShootWeapon(target *Ship) {
 func (ship *Ship) IsDestroyed() bool {
 	return ship.hullHitPoints <= 0
 }
-
-func (ship *Ship) CanMoveToSector(destination string) {
-
-}
