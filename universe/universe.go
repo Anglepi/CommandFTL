@@ -22,9 +22,9 @@ func CreateUniverse() *Universe {
 
 func connectSectors(u *Universe){
 	for i:=0 ; i<TotalSectors ; i++{
-		var neighbours = [2]Sector{u.sectors[(i+1)%TotalSectors], u.sectors[(i+2)%TotalSectors]}
+		var neighbours = [2]*Sector{&u.sectors[(i+1)%TotalSectors], &u.sectors[(i+2)%TotalSectors]}
 		u.sectors[i].addNeighbours(neighbours[:])
-		u.sectors[i].neighbourhood = append(u.sectors[i].neighbourhood, u.sectors[(i+1)%TotalSectors], u.sectors[(i+1)%TotalSectors])
+		u.sectors[i].neighbourhood = append(u.sectors[i].neighbourhood, &u.sectors[(i+1)%TotalSectors], &u.sectors[(i+1)%TotalSectors])
 	}
 }
 

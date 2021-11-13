@@ -15,6 +15,10 @@ func (ship *Ship) GetName() string {
 	return ship.name
 }
 
+func (ship *Ship) GetCurrentHullHitPoints() int {
+	return ship.hullHitPoints
+}
+
 func (ship *Ship) ShootWeapon(target *Ship) {
 	//TBD weapon precission, weapon characteristics
 	target.hullHitPoints--

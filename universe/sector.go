@@ -7,14 +7,14 @@ import (
 type Sector struct {
 	name string
 	players []ship.Ship
-	neighbourhood []Sector
+	neighbourhood []*Sector
 }
 
-func (sector *Sector) addNeighbours(neighbours []Sector) {
+func (sector *Sector) addNeighbours(neighbours []*Sector) {
 	sector.neighbourhood = append(sector.neighbourhood, neighbours...)
 
 	for _, neighbour := range neighbours {
-		neighbour.neighbourhood = append(neighbour.neighbourhood, *sector)
+		neighbour.neighbourhood = append(neighbour.neighbourhood, sector)
 	}
 }
 
@@ -28,8 +28,8 @@ func (sector *Sector) ScanSector() []string {
 	return shipNames
 }
 
-func (sector *Sector) ShotWeapons(attacker ship.Ship, victim ship.Ship) {
-
+func (sector *Sector) ShootWeapons(attacker ship.Ship, victim *ship.Ship) {
+	attacker.ShootWeapon(victim);
 }
 
 func (sector *Sector) ChangeSector(travelingShip ship.Ship, destinationSectorName string) {
@@ -38,7 +38,7 @@ func (sector *Sector) ChangeSector(travelingShip ship.Ship, destinationSectorNam
 	for i:=0 ; i<len(sector.neighbourhood) && !sectorExists ; i++{
 		sectorExists = sector.neighbourhood[i].name == destinationSectorName
 		if sectorExists {
-			neighbour = &sector.neighbourhood[i]
+			neighbour = sector.neighbourhood[i]
 		}
 	}
 	
@@ -87,19 +87,19 @@ func (sector *Sector) GetConnectedSectors() []string {
 	return connectedSectors
 }
 
-func (sector *Sector) GetShipByName(shipName string) ship.Ship {
-	var ship ship.Ship
+func (sector *Sector) GetShipByName(shipName string) *ship.Ship {
+	var ship *ship.Ship
 	for i:=0 ; i<len(sector.players) ; i++ {
 		if sector.players[i].GetName() == shipName {
-			ship = sector.players[i]
+			ship = &sector.players[i]
 		}
 	}
 	return ship
 }
 
-func (sector *Sector) GetConnectedSectorByName(sectorName string) Sector{
-	var neighbour Sector
-	for i:=0 ; i<len(sector.neighbourhood) && neighbour.name != sectorName ; i++ {
+func (sector *Sector) GetConnectedSectorByName(sectorName string) *Sector{
+	var neighbour *Sector
+	for i:=0 ; i<len(sector.neighbourhood) && neighbour == nil ; i++ {
 		if sector.neighbourhood[i].name == sectorName {
 			neighbour = sector.neighbourhood[i]
 		}
