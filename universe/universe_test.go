@@ -36,5 +36,15 @@ func TestNoDuplicateShipNames(t *testing.T){
 	secondShipCreated, _ := u.CreateNewShip("ShipA")
 
 	assert.False(t, secondShipCreated)
+}
 
+func TestConnectionBetweenSectors(t *testing.T){
+	u := CreateUniverse()
+
+	for i:=0 ; i<len(u.sectors) ; i++{
+		currentSector := u.sectors[i]
+		for j:=0 ; j<len(currentSector.neighbourhood) ; j++{
+			assert.False(t, currentSector.name == currentSector.neighbourhood[j].name)
+		}
+	}
 }
