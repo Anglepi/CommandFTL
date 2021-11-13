@@ -16,7 +16,9 @@ func CreateUniverse() *Universe {
 		newSector.name = "SCT"+strconv.Itoa(i)
 		u.sectors[i] = *newSector
 	}
+
 	connectSectors(u)
+	
 	return u
 }
 
@@ -31,8 +33,7 @@ func connectSectors(u *Universe){
 func (universe *Universe) CreateNewShip(shipName string) (bool, string) {
 	var shipIntroduced = false
 	var shipURL = ""
-	//TBD check for ships with the same name within the universe
-	
+
 	if universe.isShipNameAvailable(shipName) {
 			for i:=0 ; i<TotalSectors && !shipIntroduced ; i++{
 				if len(universe.sectors[i].players) < 1 {
