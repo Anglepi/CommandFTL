@@ -32,12 +32,26 @@ func (universe *Universe) CreateNewShip(shipName string) (bool, string) {
 	var shipIntroduced = false
 	var shipURL = ""
 	//TBD check for ships with the same name within the universe
-	for i:=0 ; i<TotalSectors && !shipIntroduced ; i++{
-		if len(universe.sectors[i].players) < 1 {
-			//TBD generate API endpoint and asign to shipURL
-			shipURL = universe.sectors[i].name + "/" + universe.sectors[i].AddNewShip(shipName)
-			shipIntroduced = true
-		}
+	
+	if universe.isShipNameAvailable(shipName) {
+			for i:=0 ; i<TotalSectors && !shipIntroduced ; i++{
+				if len(universe.sectors[i].players) < 1 {
+					//TBD generate API endpoint and asign to shipURL
+					shipURL = universe.sectors[i].name + "/" + universe.sectors[i].AddNewShip(shipName)
+					shipIntroduced = true
+				}
+			}
 	}
+
 	return shipIntroduced, shipURL
+}
+
+func (universe *Universe) isShipNameAvailable(shipName string) bool {
+	nameAvailable := true
+
+	for i:=0 ; i<TotalSectors && nameAvailable ; i++ {
+		nameAvailable = universe.sectors[i].IsShipNameAvailable(shipName)
+	}
+
+	return nameAvailable
 }

@@ -69,6 +69,16 @@ func (sector *Sector) removeShip(ship ship.Ship){
 	}
 }
 
+func (sector *Sector) IsShipNameAvailable(shipName string) bool {
+	nameAvailable := true
+
+	for i:=0 ; i<len(sector.players) && nameAvailable ; i++ {
+		nameAvailable = sector.players[i].GetName() != shipName
+	}
+
+	return nameAvailable
+}
+
 func (sector *Sector) AmountOfShips(){
 
 }
