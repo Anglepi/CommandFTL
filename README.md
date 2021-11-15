@@ -30,19 +30,19 @@ I created a [Dockerfile](https://github.com/Anglepi/CommandFTL/blob/main/Dockerf
 
 The base image I chose is `golang:alpine` since it includes just what I need and nothing more, it is a very small image perfect to optimize the size of my image.
 
-It sets the workdir and perform the updates without using the cache and in the same `RUN` instruction, and finally sets the user to the newly created one which has no root permissions and adds the GOPATH which is necessary for it to work.
+It sets the workdir and performs the updates without using the cache and in the same `RUN` instruction, and finally sets the user to the newly created one which has no root permissions and adds the GOPATH which is necessary for it to work.
 
-As you can see, the Dockerfile is really simple, the only thing worth mentioning is `ENV CGO_ENABLED 0`. This is to disable the feature that allows Go packages to call C code. Since it is not necessary for me, I disabled it to optmize everything a little more.
+As you can see, the Dockerfile is really simple, the only thing worth mentioning is `ENV CGO_ENABLED 0`. This is to disable the feature that allows Go packages to call C code. Since it is not necessary for me, I disabled it to optimize everything a little more.
 
 ### Deploying the image
 
 This image is currently deployed to both [Dockerhub](https://hub.docker.com/r/anglepi/commandftl) and [Github Container Registry](https://github.com/Anglepi/CommandFTL/pkgs/container/commandftl) (both links to my image at these domains). The process to do this is defined in a [github action](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/deploy-test-image.yml) I created with the following workflow:
 
 1. Download the repository to get the image
-1. Log in at Dockerhub
+1. Login at Dockerhub
 1. Extracts the metadata of my repository
 1. Build and push the image to Dockerhub
-1. Log in at Github Container Registry
+1. Login at Github Container Registry
 1. Build and push the image to GHCR
 
 This image is not built with the code, that is the main reason I do not need to update it with every change in the repository. I specified this action to be launched every time I make changes in my Dockerfile or in this file itself.
