@@ -25,5 +25,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: latest
+          tags: anglepi/commandftl:latest
           file: ./Dockerfile
