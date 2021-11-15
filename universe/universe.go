@@ -61,6 +61,15 @@ func (universe *Universe) GetSectorByName(sectorName string) *Sector {
 	return sector
 }
 
+func (universe *Universe) HasShipInSector(shipName string, sectorName string) bool {
+	sector := universe.GetSectorByName(sectorName)
+	if sector != nil {
+		return !sector.IsShipNameAvailable(shipName)
+	} else {
+		return false
+	}
+}
+
 func (universe *Universe) isShipNameAvailable(shipName string) bool {
 	nameAvailable := true
 
