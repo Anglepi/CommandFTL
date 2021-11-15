@@ -63,6 +63,23 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 	//HandleShootWeapons
 	router.HandleFunc("/action/shoot/{sector}/{shipName}/{target}", func(w http.ResponseWriter, r *http.Request) {
 		// Params
-		//vars := mux.Vars(r)
-	})
+		vars := mux.Vars(r)
+		sector := server.Universe.GetSectorByName(vars["sector"])
+		ship := sector.GetShipByName(vars["shipName"])
+		target := sector.GetShipByName(vars["target"])
+
+		if server.Universe.HasShipInSector(vars["shipName"], vars["sector"]) {
+			if server.Universe.HasShipInSector(vars["target"], vars["sector"]) {
+				sector.ShootWeapons(*ship, target)
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(Response{"OK", "You shoot your weapons at " + vars["target"]})
+			} else {
+				w.WriteHeader(http.StatusUnprocessableEntity)
+				json.NewEncoder(w).Encode(Response{"ERROR", "Your target does not exist"})
+			}
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(Response{"ERROR", "Ship name or current sector incorrect"})
+		}
+	}).Methods("POST")
 }
