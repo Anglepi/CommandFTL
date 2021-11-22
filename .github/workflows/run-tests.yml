@@ -18,7 +18,7 @@ jobs:
       GOPATH: ${{ github.workspace }}
     defaults:
       run:
-        working-directory: ${{ github.workspace }}/workspace/${{ github.repository }}
+        working-directory: ${{ github.workspace }}/test_workspace/${{ github.repository }}
 
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
       - name: Download repo
         uses: actions/checkout@v2
         with:
-          path: ${{ github.workspace }}/workspace/${{ github.repository }}
+          path: ${{ github.workspace }}/test_workspace/${{ github.repository }}
 
       - name: Setup Go environments
         uses: actions/setup-go@v2
