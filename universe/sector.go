@@ -116,7 +116,3 @@ func (sector *Sector) GetConnectedSectorByName(sectorName string) *Sector {
 
 	return neighbour
 }
-
-func (sector *Sector) AmountOfShips() {
-
-}
