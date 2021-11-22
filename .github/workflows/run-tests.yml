@@ -1,0 +1,31 @@
+name: Run tests with docker image
+
+on:
+  push:
+    paths:
+      - "api/**"
+      - "ship/**"
+      - "universe/**"
+  pull_request:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
+    strategy:
+      matrix:
+        go-version: ["1.15", "1.16", "1.17", "1.17.2"]
+    steps:
+      - name: Download repo
+        uses: actions/checkout@v2
+
+      - name: Setup Go environments
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests on docker image
+        run: docker run -t -v `pwd`:/app/test anglepi/commandftl
