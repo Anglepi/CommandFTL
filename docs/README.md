@@ -14,3 +14,4 @@ Here I will gather every documentation file written for this project, in order t
 1. [Task manager selection](https://github.com/Anglepi/CommandFTL/blob/main/docs/TaskManager.md)
 1. [Testing frameworks research](https://github.com/Anglepi/CommandFTL/blob/main/docs/TestingFramework.md)
 1. [Assertion libraries research](https://github.com/Anglepi/CommandFTL/blob/main/docs/AssertionLibrary.md)
+1. [State of development](https://github.com/Anglepi/CommandFTL/blob/main/docs/StateOfDevelopment.md)
