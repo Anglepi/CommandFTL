@@ -14,11 +14,11 @@ If you want to check the current state of the project, click [here](https://gith
 
 The last few days I have been working on including Continuous Integration for the repository, allowing to run the tests every time the code is updated, providing a way to see if the current code of the repository is working.
 
-To do this I have included two different mechanisms, [Github Actions](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml) and [Travis CI](https://travis-ci.org/), which is configured in [this file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml).
+To do this I have included two different mechanisms, [Github Actions](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml), and [Travis CI](https://travis-ci.org/), which is configured in [this file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml).
 
 ### Github Actions
 
-I worked previously with github actions (to update the docker image, explained [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/BuildingDockerImage.md)), so creating a github action is not new for me.
+I worked previously with Github Actions (to update the docker image, explained [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/BuildingDockerImage.md)), so creating a Github Action is not new for me.
 
 I created [this action](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml), which will run every time I update existent code or another github action, and every time a PR is made into master.
 
@@ -36,9 +36,9 @@ I had to move from the default working directory since apparently there was a `g
 
 Travis requires you to sign up for a free plan, which does not seem to be free at all since they ask for a payment method and charged me 0.92€ that has not been refunded to me so far.
 
-Once this is done, following their [tutorial](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), I linked my Github Account with Travis, and configured it so it has access to this repository.
+Once this is done, following their [tutorial](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), I linked my Github Account with Travis and configured it so it has access to this repository.
 
-The next step is to create a [`.travis.yml` file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), where I have specified the language, different versions of it and the script necessary to run the tests.
+The next step is to create a [`.travis.yml` file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), where I have specified the language, different versions of it, and the script necessary to run the tests.
 
 As you can see, the file is really simple, and it is more than enough for Travis to do its work.
 
@@ -59,7 +59,7 @@ script:
 
 Though I have to say I have not tried it.
 
-Having this setup, you could find in the situation where you want to upload changes to your repository that does not affect your code, but adding the changes will run the tests and consume credits. To skip it, just add `[skip travis]` in your commit message.
+Having this setup, you could find in the situation where you want to upload changes to your repository that do not affect your code, but adding the changes will run the tests and consume credits. To skip it, just add `[skip travis]` in your commit message.
 
 ## Additional links of interest
 
