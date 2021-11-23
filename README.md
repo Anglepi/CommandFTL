@@ -8,77 +8,58 @@ Before further reading, you might want to check the [problem description](https:
 
 The project, as you might have noticed, will be written in Go, and below you will find some choices I have made according to this language and the nature of the project.
 
-## Current state of development
+If you want to check the current state of the project, click [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/StateOfDevelopment.md).
 
-Aside from a few tweaks, this project has basically reached the [first milestone]() that I had set for it.
+## Including Continuous Integration to the repository
 
-In the last few days I worked on the functionalities needed to be able to join the game, travel to a sector and shoot a different ship using just HTTP requests, and so far it is working pretty nice.
+The last few days I have been working on including Continuous Integration for the repository, allowing to run the tests every time the code is updated, providing a way to see if the current code of the repository is working.
 
-I also created unit test for all this new code and used Make as task manager to simplify tasks. Technical information about all this can be found [here]().
+To do this I have included two different mechanisms, [Github Actions](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml) and [Travis CI](https://travis-ci.org/), which is configured in [this file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml).
 
-### How to try it
+### Github Actions
 
-For now, you can run `go run main.go` and use your preferred software to perform POST request. Currently available requests are:
+I worked previously with github actions (to update the docker image, explained [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/BuildingDockerImage.md)), so creating a github action is not new for me.
 
-- POST: `/new/{shipName}` -> Returns a JSON message containing `{sectorName/shipName}` if succeeds. You will need this information for later.
-- POST: `/action/ftl/{currentSector}/{shipName}/{destinationSector}` -> To move from your current sector to a different one.
-- POST: `/action/shoot/{currentSector}/{shipName}/{targetName}` -> To attack a target
+I created [this action](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml), which will run every time I update existent code or another github action, and every time a PR is made into master.
 
-## Using docker images for testing
+The workflow of the action is the following:
 
-I created a [Dockerfile](https://github.com/Anglepi/CommandFTL/blob/main/Dockerfile) as optimized as I could that contains everything necessary to run all the unit tests.
+1. Set up the GOPATH environment variable which is required for it to work.
+1. Change the working directory. The reason behind this is explained later on.
+1. Perform a checkout of the repository in the new working directory.
+1. Define the different go environments to do the tests, with different versions, from an old one to one of the newest.
+1. Run the tests in the docker image by using `` -t -v `pwd`:/app/test anglepi/commandftl ``
 
-I want this image to be fast when executing tests. When applying continuous integration mechanisms, most of the platforms that provide these services charges you in some way for execution time, so making smaller images that take less to build will save money.
+I had to move from the default working directory since apparently there was a `go.mod` file already existing there, and it seems to be a common issue, so when trying to checkout the repository it [fails](https://github.com/Anglepi/CommandFTL/runs/4289541104?check_suite_focus=true). After doing some research, I found out that the best solution for this was moving to a different folder.
 
-One of the advantages of CommandFTL so far is that it does not require any additional components to install besides Go, so I can start searching by lightweight images.
+### Travis CI
 
-There are quite a few [Go docker images](https://hub.docker.com/_/golang). Let's see some interesting tags:
+Travis requires you to sign up for a free plan, which does not seem to be free at all since they ask for a payment method and charged me 0.92€ that has not been refunded to me so far.
 
-- **Alpine**. This is the most promising one since it is really small, almost everything it has is only the very basic and necessary things to make it work.
-- **Buster and Stretch**. These images are built on Debian, so they're probably larger and contain more things that I probably won't need. Of these two images, Buster has a newer version of Debian, so it is more interesting than the other.
-- The rest of the version were discarded instantly the moment I found out about what they have. **Bullseye** uses Debian, but is a not yet stable version, **WindowsServerCore** has, you guessed it, Windows Server stuff that will have features I do not need at all, **NanoServer** is a lightweight version of Windows used for development, but again, I don't need Windows in any of its variants for my purpose.
+Once this is done, following their [tutorial](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), I linked my Github Account with Travis, and configured it so it has access to this repository.
 
-Buster, as expected, is large, a total of 901MB. It already includes make and git, among a lot of other things, but I am looking for something lightweight:
+The next step is to create a [`.travis.yml` file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), where I have specified the language, different versions of it and the script necessary to run the tests.
+
+As you can see, the file is really simple, and it is more than enough for Travis to do its work.
+
+There is also a way to use docker images for the testing, explained [here](https://docs.travis-ci.com/user/docker/), that seems pretty simple as well. A proposal of the file to use such configuration would be:
 
 ```
-FROM golang:buster
-LABEL maintainer="Ángel Píñar <angle@correo.ugr.es>"
-ENV CGO_ENABLED 0
+language: go
 
-WORKDIR /app/test
+services:
+  - docker
 
-RUN apt-get update && \
-    adduser commandftl
+before_install:
+- docker pull anglepi/commandftl
 
-USER commandFTL
-
-ENV GOPATH=/home/commandFTL/go
-
-CMD make test
+script:
+- docker run -t -v `pwd`:/app/test anglepi/commandftl
 ```
 
-Out of curiosity, I tried to get to work the Nanoserver image in a Windows Environment, but I could not even make it work.
+Though I have to say I have not tried it.
 
-The [alpine version](https://github.com/Anglepi/CommandFTL/blob/main/Dockerfile) has a size of 329MB, looking so much better, and by far the best of the options for my case.
-
-So this is the base image I chose, `golang:alpine`, since it is a very small image perfect to optimize the size of it, and I only have to install make and git to accomplish what I want.
-
-It sets the workdir and performs the updates and installs without using the cache and in the same `RUN` instruction, and finally sets the user to the newly created one which has no root permissions and adds the GOPATH which is necessary for it to work.
-
-As you can see, the Dockerfile is really simple, the only thing worth mentioning is `ENV CGO_ENABLED 0`. This is to disable the feature that allows Go packages to call C code. Since it is not necessary for me, I disabled it to optimize everything a little more.
-
-### Deploying the image
-
-This image is currently deployed to both [Dockerhub](https://hub.docker.com/r/anglepi/commandftl) and [Github Container Registry](https://github.com/Anglepi/CommandFTL/pkgs/container/commandftl) (both links to my image at these domains). The process to do this is defined in a [github action](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/deploy-test-image.yml) I created with the following workflow:
-
-1. Download the repository to get the image
-1. Login at Dockerhub
-1. Extracts the metadata of my repository
-1. Build and push the image to Dockerhub
-1. Login at Github Container Registry
-1. Build and push the image to GHCR
-
-This image is not built with the code, that is the main reason I do not need to update it with every change in the repository. I specified this action to be launched every time I make changes in my Dockerfile or in this file itself.
+Having this setup, you could find in the situation where you want to upload changes to your repository that does not affect your code, but adding the changes will run the tests and consume credits. To skip it, just add `[skip travis]` in your commit message.
 
 ## Additional links of interest
 
