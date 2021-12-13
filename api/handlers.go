@@ -14,13 +14,18 @@ type Response struct {
 
 func InitializeHandlers(router *mux.Router, server *Server) {
 	//HandleShipName
-	router.HandleFunc("/new/{shipName}", func(w http.ResponseWriter, r *http.Request) {
-		// Params
-		vars := mux.Vars(r)
-		shipName := vars["shipName"]
+	router.HandleFunc("/newGame", func(w http.ResponseWriter, r *http.Request) {
+		type Request struct {
+			ShipName string `json:"shipName"`
+		}
+		var request Request
 
-		if shipName == "" {
-			w.WriteHeader(http.StatusUnprocessableEntity)
+		err := json.NewDecoder(r.Body).Decode(&request)
+		// Params
+		shipName := request.ShipName
+
+		if err != nil || shipName == "" {
+			w.WriteHeader(http.StatusBadRequest)
 		} else {
 			var success, address = server.Universe.CreateNewShip(shipName)
 			w.Header().Set("Content-Type", "application/json")
