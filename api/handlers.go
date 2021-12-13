@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -41,29 +42,43 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 	}).Methods("POST")
 
 	//HandleFTL
-	router.HandleFunc("/action/ftl/{sector}/{shipName}/{destination}", func(w http.ResponseWriter, r *http.Request) {
-		// Params
+	router.HandleFunc("/action/ftl/{shipName}/{sector}", func(w http.ResponseWriter, r *http.Request) {
+		type Request struct {
+			Destination string `json:"destination"`
+		}
+		var request Request
 
 		vars := mux.Vars(r)
+		fmt.Println(vars)
 		sector := server.Universe.GetSectorByName(vars["sector"])
-		ship := sector.GetShipByName(vars["shipName"])
+		if sector != nil {
+			ship := sector.GetShipByName(vars["shipName"])
+			err := json.NewDecoder(r.Body).Decode(&request)
+			destination := request.Destination
 
-		if server.Universe.HasShipInSector(vars["shipName"], vars["sector"]) {
-			changeSuccessful := sector.ChangeSector(*ship, vars["destination"])
-			if changeSuccessful {
-				w.WriteHeader(http.StatusOK)
-				json.NewEncoder(w).Encode(Response{"OK", "You are now at sector " + vars["destination"]})
+			if server.Universe.HasShipInSector(vars["shipName"], vars["sector"]) {
+				if err != nil || destination == "" {
+					w.WriteHeader(http.StatusBadRequest)
+				} else {
+					changeSuccessful := sector.ChangeSector(*ship, destination)
+					if changeSuccessful {
+						w.WriteHeader(http.StatusOK)
+						json.NewEncoder(w).Encode(Response{"OK", ship.GetName() + "/" + destination})
+					} else {
+						w.WriteHeader(http.StatusUnprocessableEntity)
+						json.NewEncoder(w).Encode(Response{"ERROR", "Destination sector is not within range from your location"})
+					}
+				}
+
 			} else {
-				w.WriteHeader(http.StatusUnprocessableEntity)
-				json.NewEncoder(w).Encode(Response{"ERROR", "Destination sector is not within range from your location"})
+				w.WriteHeader(http.StatusNotFound)
+				json.NewEncoder(w).Encode(Response{"ERROR", "Ship name or current sector incorrect"})
 			}
-
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(Response{"ERROR", "Ship name or current sector incorrect"})
 		}
 
-	}).Methods("POST")
+	}).Methods("PUT")
 
 	//HandleShootWeapons
 	router.HandleFunc("/action/shoot/{sector}/{shipName}/{target}", func(w http.ResponseWriter, r *http.Request) {
