@@ -16,13 +16,13 @@ type Response struct {
 func InitializeHandlers(router *mux.Router, server *Server) {
 	//HandleShipName
 	router.HandleFunc("/newGame", func(w http.ResponseWriter, r *http.Request) {
+		// Params
 		type Request struct {
 			ShipName string `json:"shipName"`
 		}
 		var request Request
 
 		err := json.NewDecoder(r.Body).Decode(&request)
-		// Params
 		shipName := request.ShipName
 
 		if err != nil || shipName == "" {
@@ -35,7 +35,7 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 				w.WriteHeader(http.StatusConflict)
 				json.NewEncoder(w).Encode(Response{"ERROR", "A ship already exists with that name"})
 			} else {
-				w.WriteHeader(http.StatusOK)
+				w.WriteHeader(http.StatusCreated)
 				json.NewEncoder(w).Encode(Response{"OK", address})
 			}
 		}
