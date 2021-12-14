@@ -13,9 +13,8 @@ type Response struct {
 	Msg    string `json:"msg"`
 }
 
-func InitializeHandlers(router *mux.Router, server *Server) {
-	//HandleShipName
-	router.HandleFunc("/newGame", func(w http.ResponseWriter, r *http.Request) {
+func createNewPlayer(server *Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		// Params
 		type Request struct {
 			ShipName string `json:"shipName"`
@@ -39,10 +38,11 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 				json.NewEncoder(w).Encode(Response{"OK", address})
 			}
 		}
-	}).Methods("POST")
+	}
+}
 
-	//HandleFTL
-	router.HandleFunc("/action/ftl/{shipName}/{sector}", func(w http.ResponseWriter, r *http.Request) {
+func travelToSector(server *Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		type Request struct {
 			Destination string `json:"destination"`
 		}
@@ -78,10 +78,11 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 			w.WriteHeader(http.StatusBadRequest)
 		}
 
-	}).Methods("PUT")
+	}
+}
 
-	//HandleShootWeapons
-	router.HandleFunc("/action/shoot/{shipName}/{sector}", func(w http.ResponseWriter, r *http.Request) {
+func shootAtTarget(server *Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		// Params
 		type Request struct {
 			Target string `json:"target"`
@@ -116,5 +117,16 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 		} else {
 			w.WriteHeader(http.StatusBadRequest)
 		}
-	}).Methods("PUT")
+	}
+}
+
+func InitializeHandlers(router *mux.Router, server *Server) {
+	//HandleShipName
+	router.HandleFunc("/newGame", createNewPlayer(server)).Methods("POST")
+
+	//HandleFTL
+	router.HandleFunc("/action/ftl/{shipName}/{sector}", travelToSector(server)).Methods("PUT")
+
+	//HandleShootWeapons
+	router.HandleFunc("/action/shoot/{shipName}/{sector}", shootAtTarget(server)).Methods("PUT")
 }
