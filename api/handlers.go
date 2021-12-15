@@ -92,7 +92,6 @@ func shootAtTarget(server *Server) http.HandlerFunc {
 
 		vars := mux.Vars(r)
 		sector := server.Universe.GetSectorByName(vars["sector"])
-		fmt.Println("something")
 		if sector != nil {
 			ship := sector.GetShipByName(vars["shipName"])
 			if err != nil || request.Target == "" {
@@ -125,8 +124,8 @@ func InitializeHandlers(router *mux.Router, server *Server) {
 	router.HandleFunc("/newGame", createNewPlayer(server)).Methods("POST")
 
 	//HandleFTL
-	router.HandleFunc("/action/ftl/{shipName}/{sector}", travelToSector(server)).Methods("PUT")
+	router.HandleFunc("/{sector}/{shipName}/engines", travelToSector(server)).Methods("PUT")
 
 	//HandleShootWeapons
-	router.HandleFunc("/action/shoot/{shipName}/{sector}", shootAtTarget(server)).Methods("PUT")
+	router.HandleFunc("/{sector}/{shipName}/weapons", shootAtTarget(server)).Methods("PUT")
 }

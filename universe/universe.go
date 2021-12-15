@@ -38,7 +38,7 @@ func (universe *Universe) CreateNewShip(shipName string) (bool, string) {
 		for i := 0; i < TotalSectors && !shipIntroduced; i++ {
 			if len(universe.sectors[i].players) < 1 {
 				//TBD generate API endpoint and asign to shipURL
-				shipURL = universe.sectors[i].AddNewShip(shipName) + "/" + universe.sectors[i].name
+				shipURL = universe.sectors[i].name + "/" + universe.sectors[i].AddNewShip(shipName) 
 				shipIntroduced = true
 			}
 		}
