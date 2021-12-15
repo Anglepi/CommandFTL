@@ -55,6 +55,7 @@ func travelToSector(server *Server) http.HandlerFunc {
 			ship := sector.GetShipByName(vars["shipName"])
 			err := json.NewDecoder(r.Body).Decode(&request)
 			destination := request.Destination
+			w.Header().Set("Content-Type", "application/json")
 
 			if server.Universe.HasShipInSector(vars["shipName"], vars["sector"]) {
 				if err != nil || destination == "" {
@@ -98,6 +99,7 @@ func shootAtTarget(server *Server) http.HandlerFunc {
 				w.WriteHeader(http.StatusBadRequest)
 			} else {
 				target := sector.GetShipByName(request.Target)
+				w.Header().Set("Content-Type", "application/json")
 
 				if server.Universe.HasShipInSector(vars["shipName"], vars["sector"]) {
 					if server.Universe.HasShipInSector(request.Target, vars["sector"]) {
