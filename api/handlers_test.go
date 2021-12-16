@@ -49,7 +49,7 @@ func TestCreateNewPlayer(t *testing.T) {
 	response := executeRequest(req)
 
 	assert.Equal(t, http.StatusCreated, response.Code)
-	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
+	assert.Equal(t, "application/json", response.Result().Header.Get("Content-Type"))
 
 	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
@@ -67,7 +67,7 @@ func TestNewPlayerNameAlreadyChosen(t *testing.T) {
 	response := executeRequest(req2)
 
 	assert.Equal(t, http.StatusConflict, response.Code)
-	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
+	assert.Equal(t, "application/json", response.Result().Header.Get("Content-Type"))
 
 	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
@@ -87,7 +87,7 @@ func TestPlayerCanTravel(t *testing.T) {
 	response := executeRequest(req)
 
 	assert.Equal(t, http.StatusOK, response.Code, "could not travel to "+travelEndpoint)
-	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
+	assert.Equal(t, "application/json", response.Result().Header.Get("Content-Type"))
 
 	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
@@ -109,7 +109,7 @@ func TestShipCanShoot(t *testing.T) {
 	response := executeRequest(req)
 
 	assert.Equal(t, http.StatusOK, response.Code)
-	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
+	assert.Equal(t, "application/json", response.Result().Header.Get("Content-Type"))
 
 	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
