@@ -64,7 +64,7 @@ func travelToSector(server *Server) http.HandlerFunc {
 					changeSuccessful := sector.ChangeSector(*ship, destination)
 					if changeSuccessful {
 						w.WriteHeader(http.StatusOK)
-						json.NewEncoder(w).Encode(Response{"OK", ship.GetName() + "/" + destination})
+						json.NewEncoder(w).Encode(Response{"OK", destination + "/" + ship.GetName()})
 					} else {
 						w.WriteHeader(http.StatusUnprocessableEntity)
 						json.NewEncoder(w).Encode(Response{"ERROR", "Destination sector is not within range from your location"})
