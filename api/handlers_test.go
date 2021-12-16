@@ -22,6 +22,26 @@ func executeRequest(request *http.Request) *httptest.ResponseRecorder {
 	return recorder
 }
 
+func createShip(shipName string) string {
+	req, _ := http.NewRequest("POST", "/newGame", bytes.NewBuffer([]byte(`{ "shipName": "`+shipName+`"}`)))
+
+	response := executeRequest(req)
+	var data map[string]interface{}
+	json.Unmarshal(response.Body.Bytes(), &data)
+	return data["msg"].(string)
+}
+
+func moveShip(traveler string, destination string) string {
+	req, _ := http.NewRequest("PUT", "/"+traveler+"/engines", bytes.NewBuffer([]byte(`{"destination":"`+destination+`"}`)))
+
+	response := executeRequest(req)
+
+	var data map[string]interface{}
+	json.Unmarshal(response.Body.Bytes(), &data)
+
+	return data["msg"].(string)
+}
+
 func TestCreateNewPlayer(t *testing.T) {
 	server = CreateServer()
 	req, _ := http.NewRequest("POST", "/newGame", bytes.NewBuffer([]byte(`{ "shipName": "testShip"}`)))
@@ -58,29 +78,42 @@ func TestNewPlayerNameAlreadyChosen(t *testing.T) {
 
 func TestPlayerCanTravel(t *testing.T) {
 	server = CreateServer()
-	req, _ := http.NewRequest("POST", "/newGame", bytes.NewBuffer([]byte(`{ "shipName": "TestPlayerCanTravel"}`)))
+
+	newShip := createShip("TestPlayerCanTravel")
+
+	travelEndpoint := "/" + newShip + "/engines"
+	req, _ := http.NewRequest("PUT", travelEndpoint, bytes.NewBuffer([]byte(`{"destination":"SCT1"}`)))
 
 	response := executeRequest(req)
 
-	assert.Equal(t, http.StatusCreated, response.Code)
+	assert.Equal(t, http.StatusOK, response.Code, "could not travel to "+travelEndpoint)
 	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
 
 	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
 
 	assert.Equal(t, data["status"], StatusOK)
-	assert.Equal(t, data["msg"], "SCT0/TestPlayerCanTravel")
+	assert.Equal(t, data["msg"], "SCT1/TestPlayerCanTravel")
+}
 
-	travelEndpoint := "/SCT0/TestPlayerCanTravel/engines"
-	req, _ = http.NewRequest("PUT", travelEndpoint, bytes.NewBuffer([]byte(`{"destination":"SCT1"}`)))
+func TestShipCanShoot(t *testing.T) {
+	server = CreateServer()
 
-	response = executeRequest(req)
+	attacker := createShip("attacker")
+	createShip("victim")
 
-	assert.Equal(t, http.StatusOK, response.Code, "could not travel to "+travelEndpoint)
+	attacker = moveShip(attacker, "SCT1")
+
+	req, _ := http.NewRequest("PUT", "/"+attacker+"/weapons", bytes.NewBuffer([]byte(`{"target":"victim"}`)))
+
+	response := executeRequest(req)
+
+	assert.Equal(t, http.StatusOK, response.Code)
 	assert.Equal(t, "application/json", response.HeaderMap.Get("Content-Type"))
 
+	var data map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &data)
 
 	assert.Equal(t, data["status"], StatusOK)
-	assert.Equal(t, data["msg"], "SCT1/TestPlayerCanTravel")
+	assert.Equal(t, data["msg"], "You shoot your weapons at victim")
 }
