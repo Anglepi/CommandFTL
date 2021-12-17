@@ -10,56 +10,41 @@ The project, as you might have noticed, will be written in Go, and below you wil
 
 If you want to check the current state of the project, click [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/StateOfDevelopment.md).
 
-## Including Continuous Integration to the repository
+## Building REST API
 
-The last few days I have been working on including Continuous Integration for the repository, allowing to run the tests every time the code is updated, providing a way to see if the current code of the repository is working.
+This section contains the details of the REST API built for CommandFTL, such as the framework used and the different endpoints and how to use them.
 
-To do this I have included two different mechanisms, [Github Actions](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml), and [Travis CI](https://travis-ci.org/), which is configured in [this file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml).
+### Toolkit used
 
-### Github Actions
+I chose [gorilla/mux](https://github.com/gorilla/mux), a toolkit that extends the default Handler from Go to manage my endpoints and build the API.
 
-I worked previously with Github Actions (to update the docker image, explained [here](https://github.com/Anglepi/CommandFTL/blob/main/docs/BuildingDockerImage.md)), so creating a Github Action is not new for me.
+The main reason behind this choice is that it just extends a bit the already existent functionality from Go, which allows to add more functionalities and frameworks in the future if required, or make any changes without massive effort.
 
-I created [this action](https://github.com/Anglepi/CommandFTL/blob/main/.github/workflows/run-tests.yml), which will run every time I update existent code or another github action, and every time a PR is made into master.
+Another reason is that it is simple, the toolkit is not hard to use and very straightforward. Having this very little complexity, and being just a small extension, makes it easy to work with in many aspects such as testing.
 
-The workflow of the action is the following:
+#### Alternatives
 
-1. Set up the GOPATH environment variable which is required for it to work.
-1. Change the working directory. The reason behind this is explained later on.
-1. Perform a checkout of the repository in the new working directory.
-1. Define the different go environments to do the tests, with different versions, from an old one to one of the newest.
-1. Run the tests in the docker image by using `` -t -v `pwd`:/app/test anglepi/commandftl ``
+[Gin](https://github.com/gin-gonic/gin) is a popular framework that stands out for being minimalistic and very fast. It is a very promising option to consider, but I finally rejected it because the future of the project is not completely planned, and if I had to require extra utilities or perform any other changes regarding the API, this framework will make it too much work.
 
-I had to move from the default working directory since apparently there was a `go.mod` file already existing there, and it seems to be a common issue, so when trying to checkout the repository it [fails](https://github.com/Anglepi/CommandFTL/runs/4289541104?check_suite_focus=true). After doing some research, I found out that the best solution for this was moving to a different folder.
+Another alternative to consider is [Martini](https://github.com/go-martini/martini). Unlike Gin, this one seems to work pretty well with other frameworks and utilities, being modular and scalable. The problem I found that made me reject this is that it seems to use its own router which is pretty slow, and the nature of CommandFTL does not allow slow request handling. Also, when I got to check their repository, I saw it is no longer maintained.
 
-### Travis CI
+[Revel](https://revel.github.io/) is also pretty popular, and has a ton of features and third-party libraries that could come in handy in some situations. This makes the framework very useful when imported, but also very large, and with a lot of features I will never need to use. As I said in a previous stage of the project, I do not need unnecessary functions, I want a lightweight source code.
 
-Travis requires you to sign up for a free plan, which does not seem to be free at all since they ask for a payment method and charged me 0.92€ that has not been refunded to me so far.
+### Defined endpoints
 
-Once this is done, following their [tutorial](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), I linked my Github Account with Travis and configured it so it has access to this repository.
+| Endpoint                 | Method | Body                               | Response Status Code | Description                                                                                                           |
+| ------------------------ | ------ | ---------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| /newGame                 | POST   | {"shipName": "myShipName"}         | 201, 400, 409        | Used to start a new game, creating a ship with the given name. Returns the newly created ship with the initial sector |
+| /{sector}/{ship}/weapons | PUT    | {"target": "targetShipName"}       | 200, 400, 422        | Update your weapons systems giving it a target to shoot at. Basically, allows you to shoot at a given target          |
+| /{sector}/{ship}/engines | PUT    | {"destination": "neighbourSector"} | 200, 400, 404, 422   | Attempts to use your engines to travel to the specified sector                                                        |
 
-The next step is to create a [`.travis.yml` file](https://github.com/Anglepi/CommandFTL/blob/main/.travis.yml), where I have specified the language, different versions of it, and the script necessary to run the tests.
+The "main" resource is the sector. Within each sector, we can find ships, and each ship will have systems to access. This is the reasoning behind the structuring of these endpoints.
 
-As you can see, the file is really simple, and it is more than enough for Travis to do its work.
+## Including logs
 
-There is also a way to use docker images for the testing, explained [here](https://docs.travis-ci.com/user/docker/), that seems pretty simple as well. A proposal of the file to use such configuration would be:
+I have used Go's native framework for logs. It's pretty versatile, and does not require additional modules to install, making it the most lightweight possible. To use it I just built a [small file](https://github.com/Anglepi/CommandFTL/blob/main/logger/logger.go) to encapsulate its functionality and that's it.
 
-```
-language: go
-
-services:
-  - docker
-
-before_install:
-- docker pull anglepi/commandftl
-
-script:
-- docker run -t -v `pwd`:/app/test anglepi/commandftl
-```
-
-Though I have to say I have not tried it.
-
-Having this setup, you could find in the situation where you want to upload changes to your repository that do not affect your code, but adding the changes will run the tests and consume credits. To skip it, just add `[skip travis]` in your commit message.
+Although there are tools and frameworks for logging in Go, such as [logrus](https://github.com/sirupsen/logrus) and [glog](https://github.com/golang/glog), I do not feel necessary to use them, since right now and during the following states of development of the project, I do not require additional features or tools for my logging needs, adding them would just make everything more complex and heavyweight than necessary.
 
 ## Additional links of interest
 
