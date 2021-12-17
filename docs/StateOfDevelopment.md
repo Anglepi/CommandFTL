@@ -20,6 +20,6 @@ I also created unit test for all this new code and used Make as task manager to 
 
 For now, you can run `go run main.go` and use your preferred software to perform POST request. Currently available requests are:
 
-- POST: `/new/{shipName}` -> Returns a JSON message containing `{sectorName/shipName}` if succeeds. You will need this information for later.
-- POST: `/action/ftl/{currentSector}/{shipName}/{destinationSector}` -> To move from your current sector to a different one.
-- POST: `/action/shoot/{currentSector}/{shipName}/{targetName}` -> To attack a target
+- POST: `/newGame` -> Returns a JSON message containing `{sectorName/shipName}` if succeeds. You will need this information for later.
+- POST: `/{currentSector}/{shipName}/engines` -> To move from your current sector to a different one.
+- POST: `/{currentSector}/{shipName}/weapons` -> To attack a target
