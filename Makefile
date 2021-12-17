@@ -2,7 +2,7 @@ run:
 	go run main.go
 	
 build:
-	go build main.go
+	echo "Building..."
 
 install:
 	go install ./..
