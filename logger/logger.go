@@ -24,3 +24,9 @@ func InitLog() {
 func CloseLog() {
 	file.Close()
 }
+
+func Log(msg string) {
+	if MyLog != nil {
+		MyLog.Println(msg)
+	}
+}

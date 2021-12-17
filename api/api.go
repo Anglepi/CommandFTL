@@ -24,7 +24,7 @@ func CreateServer() *Server {
 	// Log middleware
 	router.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			logger.MyLog.Println("MIDDLEWARE: " + r.Method + " " + r.RequestURI + " from " + r.RemoteAddr)
+			logger.Log("MIDDLEWARE: " + r.Method + " " + r.RequestURI + " from " + r.RemoteAddr)
 			next.ServeHTTP(w, r)
 		})
 	})
