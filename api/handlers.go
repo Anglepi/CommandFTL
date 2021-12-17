@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Anglepi/CommandFTL/logger"
 	"github.com/gorilla/mux"
 )
 
@@ -33,9 +34,11 @@ func createNewPlayer(server *Server) http.HandlerFunc {
 			if !success {
 				w.WriteHeader(http.StatusConflict)
 				json.NewEncoder(w).Encode(Response{"ERROR", "A ship already exists with that name"})
+				logger.MyLog.Println("Attempted to create already existant ship: " + shipName)
 			} else {
 				w.WriteHeader(http.StatusCreated)
 				json.NewEncoder(w).Encode(Response{"OK", address})
+				logger.MyLog.Println("Created new ship called: " + shipName)
 			}
 		}
 	}
@@ -65,9 +68,11 @@ func travelToSector(server *Server) http.HandlerFunc {
 					if changeSuccessful {
 						w.WriteHeader(http.StatusOK)
 						json.NewEncoder(w).Encode(Response{"OK", destination + "/" + ship.GetName()})
+						logger.MyLog.Println(ship.GetName() + " traveled to sector " + destination)
 					} else {
 						w.WriteHeader(http.StatusUnprocessableEntity)
 						json.NewEncoder(w).Encode(Response{"ERROR", "Destination sector is not within range from your location"})
+						logger.MyLog.Println(ship.GetName() + " attempted to travel to unreachable sector " + destination)
 					}
 				}
 
@@ -106,9 +111,11 @@ func shootAtTarget(server *Server) http.HandlerFunc {
 						sector.ShootWeapons(*ship, target)
 						w.WriteHeader(http.StatusOK)
 						json.NewEncoder(w).Encode(Response{"OK", "You shoot your weapons at " + request.Target})
+						logger.MyLog.Println(ship.GetName() + " shot their weapons at " + target.GetName() + " in sector " + vars["sector"])
 					} else {
 						w.WriteHeader(http.StatusUnprocessableEntity)
 						json.NewEncoder(w).Encode(Response{"ERROR", "Your target does not exist"})
+						logger.MyLog.Println(ship.GetName() + " attempted to shot their weapons at unknown target in sector " + vars["sector"])
 					}
 				} else {
 					w.WriteHeader(http.StatusBadRequest)

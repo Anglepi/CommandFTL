@@ -1,9 +1,9 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/Anglepi/CommandFTL/logger"
 	"github.com/Anglepi/CommandFTL/universe"
 	"github.com/gorilla/mux"
 )
@@ -24,7 +24,7 @@ func CreateServer() *Server {
 	// Log middleware
 	router.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			fmt.Println(r.Method + " " + r.RequestURI + " from " + r.RemoteAddr)
+			logger.MyLog.Println("MIDDLEWARE: " + r.Method + " " + r.RequestURI + " from " + r.RemoteAddr)
 			next.ServeHTTP(w, r)
 		})
 	})
