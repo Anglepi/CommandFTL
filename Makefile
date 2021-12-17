@@ -5,7 +5,7 @@ build:
 	echo "Building..."
 
 install:
-	go install ./..
+	echo "Installing..."
 
 test:
 	go test -v ./...
