@@ -2,9 +2,8 @@ name: Deploy testing image
 
 on:
   push:
-    paths:
-      - "Dockerfile"
-      - ".github/workflows/deploy-test-image.yml"
+    branches:
+      - 'main'
 
 jobs:
   push-to-dockerhub:
