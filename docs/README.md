@@ -8,6 +8,7 @@ Here I will gather every documentation file written for this project, in order t
 1. [Project plannification and User stories](https://github.com/Anglepi/CommandFTL/blob/main/docs/ProjectPlanning.md)
 1. [Testing Environment Justification](https://github.com/Anglepi/CommandFTL/blob/main/docs/TestingEnvironmentJustification.md)
 1. [Building a Docker image for testing purposes](https://github.com/Anglepi/CommandFTL/blob/main/docs/BuildingDockerImage.md)
+1. [Continuous Integration](https://github.com/Anglepi/CommandFTL/blob/main/docs/ContinuousIntegration.md)
 
 ## Additional Information
 
